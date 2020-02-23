@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang = "en">
+    
+<head>
+    <!--Required mets tags-->
+
+    <meta charset = "utf-8">
+    <meta name="viewport" content="width=device-width, intial scale=1, shrink-to-fit=no">
+
+    <!--Bootstrap CSS-->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!--fontawesome-->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <title>TodoList App</title>
+
+<style type="text/css">
+    body {
+     background-color: #8f4df8
+ }
+
+ .main-todo-input {
+     background: #fff;
+     padding: 0 120px 0 0;
+     border-radius: 1px;
+     margin-top: 200px;
+     box-shadow: 0px 0px 0px 6px rgba(255, 255, 255, 0.3)
+ }
+
+ .fl-wrap {
+     float: left;
+     width: 100%;
+     position: relative
+ }
+
+ .main-todo-input:before {
+     content: '';
+     position: absolute;
+     bottom: -40px;
+     width: 50px;
+     height: 1px;
+     background: rgba(255, 255, 255, 0.41);
+     left: 50%;
+     margin-left: -25px
+ }
+
+ .main-todo-input-item {
+     float: left;
+     width: 100%;
+     box-sizing: border-box;
+     border-right: 1px solid #eee;
+     height: 50px;
+     position: relative
+ }
+
+ .main-todo-input-item input:first-child {
+     border-radius: 100%
+ }
+
+ .main-todo-input-item input {
+     float: left;
+     border: none;
+     width: 100%;
+     height: 50px;
+     padding-left: 20px
+ }
+
+ .main-search-button {
+     background: #4DB7FE
+ }
+
+ .main-search-button {
+     position: absolute;
+     right: 0px;
+     height: 37px;
+     width: 120px;
+     color: #fff;
+     top: 0;
+     border: none;
+     border-top-right-radius: 0px;
+     border-bottom-right-radius: 0px;
+     cursor: pointer
+ }
+
+ .main-search-button1 {
+     background: #4DB7FE
+ }
+
+
+
+/* Remove margins and padding from the list */
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+/* Style the list items */
+ul li {
+  cursor: pointer;
+  position: relative;
+  padding: 12px 8px 12px 40px;
+  list-style-type: none;
+  background: #eee;
+  font-size: 18px;
+  transition: 0.2s;
+  
+  /* make the list items unselectable */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Set all odd list items to a different color (zebra-stripes) */
+ul li:nth-child(odd) {
+  background: #f9f9f9;
+}
+
+/* Darker background-color on hover */
+ul li:hover {
+  background: #ddd;
+}
+
+/* When clicked on, add a background color and strike out text */
+ul li.checked {
+  background: #87cefa;
+  color: #fff;
+  text-decoration: line-through;
+}
+
+/* Add a "checked" mark when clicked on */
+ul li.checked::before {
+  content: '';
+  position: absolute;
+  border-color: #fff;
+  border-style: solid;
+  border-width: 0 2px 2px 0;
+  top: 10px;
+  left: 16px;
+  transform: rotate(45deg);
+  height: 15px;
+  width: 7px;
+}
+
+
+
+
+
+
+
+
+ .main-search-button1 {
+     
+     right: 0px;
+     height: 30px;
+     width: 70px;
+     color: #fff;
+     border: none;
+     cursor: pointer
+ }
+
+ .main-todo-input-wrap {
+     max-width: 500px;
+     margin: 20px auto;
+     position: relative
+ }
+
+ :focus {
+     outline: 0
+ }
+
+ @media only screen and (max-width: 768px) {
+     .main-todo-input {
+         background: rgba(255, 255, 255, 0.2);
+         padding: 14px 20px 10px;
+         border-radius: 10px;
+         box-shadow: 0px 0px 0px 10px rgba(255, 255, 255, 0.0)
+     }
+
+     .main-todo-input-item {
+         width: 100%;
+         border: 1px solid #eee;
+         height: 50px;
+         border: none;
+         margin-bottom: 10px
+     }
+
+     .main-todo-input-item input {
+         border-radius: 6px !important;
+         background: #fff
+     }
+
+     .main-search-button {
+         position: relative;
+         float: left;
+         width: 100%;
+         border-radius: 5px
+     }
+     .main-search-button1 {
+        position: relative;
+         float: left;
+         width: 100%;
+         border-radius: 6px
+     }
+ }
+
+ .remove {
+     float: right;
+     color: #757575 !important;
+     font-size: 14px
+ }
+
+ #list-items {
+     padding-left: 20px;
+     padding-top: 15px
+ }
+
+ ul {
+     padding: 0;
+     text-align: left;
+     list-style: none
+ }
+
+ .todo-text {
+     color: #757575;
+     margin-left: 10px
+ }
+
+ .strike {
+     color: blue
+ }
+
+ .todo-listing {
+     padding: 0px 29px 0 0;
+     margin-top: 54px !important
+ }
+</style>
+</head>
+<script src="//code.jquery.com/jquery-3.1.0.slim.min.js"></script>
+
+
+<row>
+    <h1 class="text-center">Enter todo Item</h1>
+    <form class="main-todo-input fl-wrap todo-listing" action="/newtodo" method = "POST">
+        
+    <div class="main-todo-input-wrap">
+  
+        <input type="text" class="form-control" name="item" placeholder="What will you do today?" ><span> <button type="submit" class="add-items main-search-button"> Submit </button> </span>
+    </div>
+   
+    </form>
+</row>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="main-todo-input-wrap">
+            <div class="main-todo-input fl-wrap todo-listing">
+                <ul class="list-unstyled" id="list-items">
+                    <% for(var i = 0; i < todoList.length; i++) { %>
+                        <li> <%= (i+1) + ". " + todoList[i].name %>  <a href="/destroy/<%= todoList[i]._id %>" title="Delete this todo item"><button type="delete" class="main-search-button1"> Delete </button> </span></a> </li>
+                           
+                        <form  action="/edit/<%= todoList[i]._id %>" method = "POST">
+        
+                            <div class="main-todo-input-wrap">
+                          
+                                <input type="text" class="form-control" name="items" placeholder="If you want to edit?" ><span> <button type="edit" class="add-items main-search-button"> Edit </button> </span>
+                            </div>
+                           
+                            </form>
+                   <% } %>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<script>
+
+var list = document.querySelector('ul');
+list.addEventListener('click', function(ev) {
+  if (ev.target.tagName === 'LI') {
+    ev.target.classList.toggle('checked');
+  }
+}, false);
+</script>
+</html>
