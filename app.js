@@ -3,16 +3,26 @@ var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 
+const MONODB_URI = 'mongodb+srv://Anubha:agrawal@cluster0-okm0x.mongodb.net/test?retryWrites=true&w=majority'
 //mongoose connection
-mongoose.connect("mongodb://localhost/todo")
+mongoose.connect(MONODB_URI || 'mongodb://localhost/todo', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
 
-
+mongoose.connection.on('connected', () => {
+    console.log('Mongoose is Connected !!')
+});
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 //mongoose scema
 
 var todoSchema = new mongoose.Schema({
-    name:String
+    name:String,
+    date:{
+        type: String,
+        default: Date.now()
+    }
 });
 var Todo = mongoose.model("Todo", todoSchema);
 
