@@ -3,9 +3,9 @@ var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 
-const MONODB_URI = 'mongodb+srv://Anubha:agrawal@cluster0-okm0x.mongodb.net/test?retryWrites=true&w=majority'
+//const MONODB_URI = 'mongodb+srv://Anubha:agrawal@cluster0-okm0x.mongodb.net/test?retryWrites=true&w=majority'
 //mongoose connection
-mongoose.connect(MONODB_URI || 'mongodb://localhost/todo', {
+mongoose.connect(process.env.MONODB_URI || 'mongodb://localhost/todo', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
@@ -19,6 +19,10 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 var todoSchema = new mongoose.Schema({
     name:String,
+    checked: {
+        type: Boolean,
+        default: true
+    },
     date:{
         type: String,
         default: Date.now()
@@ -42,10 +46,66 @@ app.get("/", function(req, res){
     
 });
 
+
+/*app.get('/check', function(req, res){
+    console.log("item checked");
+    
+    res.redirect("/");
+});
+
+*/
+
+app.post('/check/:id', function(req, res){
+    //console.log("item Checkedvb");
+    //console.log(req.body.todo1);
+    var mongodb = require('mongodb');
+
+    if(req.body.todo1){
+        console.log("Item Checked");
+        Todo.updateOne({'_id': new mongodb.ObjectID(req.params.id)}, 
+        { $set: {'checked': true } },function(err, Todo){
+            if(err) console.log(err);
+            else{
+                console.log("Edited Item: "+ req.params.id);
+            }
+        });
+    }else{
+        console.log("Item Not Checked");
+        Todo.updateOne({'_id': new mongodb.ObjectID(req.params.id)}, 
+        { $set: {'checked': false } },function(err, Todo){
+            if(err) console.log(err);
+            else{
+                console.log("Edited Item: "+ req.params.id);
+            }
+        });
+    }
+   /* var mongodb = require('mongodb');
+    //req.params.checked = true;
+    console.log("Checked "+ req.body.todo1);
+  
+    if(req.body.todo1) {
+        console.log('checked : ' + req.body.todo1);
+      }
+      else{
+        console.log('not checked : ' + req.body.todo1);
+      }
+    Todo.updateOne({'_id': new mongodb.ObjectID(req.params.id)}, 
+    { $set: {'checked': false } },function(err, Todo){
+        if(err) console.log(err);
+        else{
+            console.log("Edited Item: "+ req.params.id);
+        }
+    });*/
+
+    res.redirect("/")
+});
+
+
 app.post("/newtodo", function(req, res){
     console.log("item submitted");
     var newItem = new Todo ({
-       name: req.body.item
+       name: req.body.item,
+       checked:false
     });
     Todo.create(newItem,function(err, Todo){
         if(err) console.log(err);
@@ -72,7 +132,15 @@ app.get('/destroy/:id', function(req, res){
 
 
 
-
+app.get('/edit/:id', function(req, res){
+    var mongodb = require('mongodb');
+    var delItem ={_id: new mongodb.ObjectID(req.params.id)};
+    Todo.find({}, function(err, todoList){
+        if(err) console.log(err);
+        else{
+            res.render("todoEdit.ejs", {todoList: todoList, Todoid: delItem._id});
+        }
+    })
 app.post('/edit/:id', function(req, res){
     console.log("item Edited");
     var mongodb = require('mongodb');
@@ -88,7 +156,7 @@ app.post('/edit/:id', function(req, res){
     });
     res.redirect("/");
 });
-
+});
 
 /*app.get("/edit", function(req, res){
     console.log("item Edited");
@@ -112,6 +180,10 @@ app.get("*", function(req, res){
     res.send("<h1>Invalid Page </h1>");
 })
 
+
+if(process.env.NODE_ENV === 'production'){
+
+}
 // server listening on port 3000
 PORT = process.env.PORT || 3000;
 app.listen(PORT, function(){
